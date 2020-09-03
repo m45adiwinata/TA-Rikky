@@ -19,20 +19,20 @@ def get_MFCC(sr,audio):
     features = preprocessing.scale(features)        #PREPROCESSING FITUR DENGAN LIBRARY
     return features
 #definisi filepath lagu asli / data model
-path_asli = 'Data Lagu\\asli\\awal-reff'
+path_asli = '..\\Data Lagu\\asli\\awal-reff'
 filepath_asli = [os.path.join(path_asli,fname) for fname in os.listdir(path_asli) if fname.endswith('.wav')]
 #definisi filepath lagu cover / data testing
 path = [
-        'Data Lagu\\1\\awal-reff - 16000',
-        'Data Lagu\\2\\awal-reff - 16000',
-        'Data Lagu\\3\\awal-reff - 16000',
-        'Data Lagu\\4\\awal-reff - 16000',
-        'Data Lagu\\5\\awal-reff - 16000',
-        'Data Lagu\\6\\awal-reff - 16000',
-        'Data Lagu\\7\\awal-reff - 16000',
-        'Data Lagu\\8\\awal-reff - 16000',
-        'Data Lagu\\9\\awal-reff - 16000',
-        'Data Lagu\\10\\awal-reff - 16000'
+        '..\\Data Lagu\\1\\awal-reff - 16000',
+        '..\\Data Lagu\\2\\awal-reff - 16000',
+        '..\\Data Lagu\\3\\awal-reff - 16000',
+        '..\\Data Lagu\\4\\awal-reff - 16000',
+        '..\\Data Lagu\\5\\awal-reff - 16000',
+        '..\\Data Lagu\\6\\awal-reff - 16000',
+        '..\\Data Lagu\\7\\awal-reff - 16000',
+        '..\\Data Lagu\\8\\awal-reff - 16000',
+        '..\\Data Lagu\\9\\awal-reff - 16000',
+        '..\\Data Lagu\\10\\awal-reff - 16000'
         ]
 filepath = []
 for p in path:
@@ -55,7 +55,7 @@ for fi in test_set:
     mean_ddws = []
     #PERULANGAN UNTUK PROSES DTW FITUR LAGU COVER DENGAN FITUR LAGU ASLI
     for f in filepath_asli:    
-        rates, bits = wavfile.read(f)       #BACA SAMPLING RATES DAN BIT ADTA LAGU ASLI
+        rates, bits = wavfile.read(f)       #BACA SAMPLING RATES DAN BIT DATA LAGU ASLI
         features = get_MFCC(rates, bits)    #EKSTRAKSI FITUR DENGAN MEMANGGIL FUNGSI MFCC
         x = []
         #MENGUBAH FITUR KE FITUR VEKTOR
