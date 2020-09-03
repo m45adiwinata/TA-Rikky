@@ -12,15 +12,16 @@ import python_speech_features as mfcc
 from sklearn import preprocessing
 import os
 
+#FUNGSI MFCC
 def get_MFCC(sr,audio):
     #mfcc(signal, sample_rate, win_len, win_step, num_cep, ...) https:\\\\python-speech-features.readthedocs.io\\en\\latest\\
-    features = mfcc.mfcc(audio, sr, 0.05, 0.025, 20, appendEnergy = False)
-    features = preprocessing.scale(features)
+    features = mfcc.mfcc(audio, sr, 0.05, 0.025, 20, appendEnergy = False)      #PARAMETER MFCC DIATUR DISINI
+    features = preprocessing.scale(features)        #PREPROCESSING FITUR DENGAN LIBRARY
     return features
-
+#definisi filepath lagu asli / data model
 path_asli = 'Data Lagu\\asli\\awal-reff'
 filepath_asli = [os.path.join(path_asli,fname) for fname in os.listdir(path_asli) if fname.endswith('.wav')]
-
+#definisi filepath lagu cover / data testing
 path = [
         'Data Lagu\\1\\awal-reff - 16000',
         'Data Lagu\\2\\awal-reff - 16000',
@@ -37,26 +38,32 @@ filepath = []
 for p in path:
     filepath.append([os.path.join(p,fname) for fname in os.listdir(p) if fname.endswith('.wav')])
 
-matched = []
+matched = []            #hasil pengenalan lagu asli terhadap lagu cover
+#TENTUKAN DATASET TESTING
 #test_set = np.append(filepath[0][:3], filepath[5][:3])
 test_set = np.append(filepath[5][:3], [])
+#PERULANGAN PROSES PENGENALAN LAGU ASLI
 for fi in test_set:
-    rates0, bits0 = wavfile.read(fi)
-    features0 = get_MFCC(rates0, bits0)
+    rates0, bits0 = wavfile.read(fi)        #BACA SAMPLING RATES DAN BIT DATA LAGU COVER
+    features0 = get_MFCC(rates0, bits0)     #EKSTRAKSI FITUR DENGAN MEMANGGIL FUNGSI MFCC
     y = []
+    #MENGUBAH FITUR KE FITUR VEKTOR
     for f in features0:
         y.append(np.sum(f))
-    y = np.array(y)
+    y = np.array(y)     #FITUR VEKTOR LAGU COVER SUDAH SIAP
     
     mean_ddws = []
+    #PERULANGAN UNTUK PROSES DTW FITUR LAGU COVER DENGAN FITUR LAGU ASLI
     for f in filepath_asli:    
-        rates, bits = wavfile.read(f)
-        features = get_MFCC(rates, bits)
+        rates, bits = wavfile.read(f)       #BACA SAMPLING RATES DAN BIT ADTA LAGU ASLI
+        features = get_MFCC(rates, bits)    #EKSTRAKSI FITUR DENGAN MEMANGGIL FUNGSI MFCC
         x = []
+        #MENGUBAH FITUR KE FITUR VEKTOR
         for f in features:
             x.append(np.sum(f))
         x = np.array(x)
         d = np.zeros((y.size, x.size), dtype=int)
+        #PERULANGAN UNTUK PROSES DTW
         for i in range(len(y)):
             for j in range(len(x)):
                 if i % 100 == 0 and j == 0:
@@ -74,6 +81,7 @@ for fi in test_set:
         dw = []
         i=0
         j=0
+        #PERULANGAN UNTUK MENGHITUNG JARAK SETIAP STEP DTW
         while i < d.shape[0]-1 and j < d.shape[1]-1:
             w.append([i, j])
             dw.append(d[i,j])
@@ -94,5 +102,5 @@ for fi in test_set:
         ddw = []
         for i in range(len(dw) - 1):
             ddw.append(dw[i+1] - dw[i])
-        mean_ddws.append(np.mean(ddw))
-    matched.append(np.argmin(mean_ddws))
+        mean_ddws.append(np.mean(ddw))      #MENGUMPULKAN HASIL RATA-RATA JARAK SETIAP STEP DTW (DDWS)
+    matched.append(np.argmin(mean_ddws))    #MENCARI INDEX DDWS MINIMUM SEBAGAI HASIL PENGENALAN DAN DIKUMPULKAN KE ARRAY HASIL PENGENALAN
