@@ -26,15 +26,15 @@ path_asli = '..\\Data Lagu\\asli\\reff'
 filepath_asli = [os.path.join(path_asli,fname) for fname in os.listdir(path_asli) if fname.endswith('.wav')]
 #definisi filepath lagu cover / data testing
 path = [
-        '..\\Data Lagu\\1\\reff',
-        '..\\Data Lagu\\2\\reff',
-        '..\\Data Lagu\\3\\reff',
-        '..\\Data Lagu\\4\\reff',
-        '..\\Data Lagu\\5\\reff',
-        '..\\Data Lagu\\6\\reff',
-        '..\\Data Lagu\\7\\reff',
-        '..\\Data Lagu\\8\\reff',
-        '..\\Data Lagu\\9\\reff',
+        '..\\Data Lagu\\01\\reff',
+        '..\\Data Lagu\\02\\reff',
+        '..\\Data Lagu\\03\\reff',
+        '..\\Data Lagu\\04\\reff',
+        '..\\Data Lagu\\05\\reff',
+        '..\\Data Lagu\\06\\reff',
+        '..\\Data Lagu\\07\\reff',
+        '..\\Data Lagu\\08\\reff',
+        '..\\Data Lagu\\09\\reff',
         '..\\Data Lagu\\10\\reff'
         ]
 filepath = []

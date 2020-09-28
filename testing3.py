@@ -25,15 +25,15 @@ path_asli = '..\\Data Lagu\\asli\\awal-reff'
 filepath_asli = [os.path.join(path_asli,fname) for fname in os.listdir(path_asli) if fname.endswith('.wav')]
 #definisi filepath lagu cover / data testing
 path = [
-        '..\\Data Lagu\\1\\awal-reff',
-        '..\\Data Lagu\\2\\awal-reff',
-        '..\\Data Lagu\\3\\awal-reff',
-        '..\\Data Lagu\\4\\awal-reff',
-        '..\\Data Lagu\\5\\awal-reff',
-        '..\\Data Lagu\\6\\awal-reff',
-        '..\\Data Lagu\\7\\awal-reff',
-        '..\\Data Lagu\\8\\awal-reff',
-        '..\\Data Lagu\\9\\awal-reff',
+        '..\\Data Lagu\\01\\awal-reff',
+        '..\\Data Lagu\\02\\awal-reff',
+        '..\\Data Lagu\\03\\awal-reff',
+        '..\\Data Lagu\\04\\awal-reff',
+        '..\\Data Lagu\\05\\awal-reff',
+        '..\\Data Lagu\\06\\awal-reff',
+        '..\\Data Lagu\\07\\awal-reff',
+        '..\\Data Lagu\\08\\awal-reff',
+        '..\\Data Lagu\\09\\awal-reff',
         '..\\Data Lagu\\10\\awal-reff'
         ]
 filepath = []
@@ -41,9 +41,11 @@ for p in path:
     filepath.append([os.path.join(p,fname) for fname in os.listdir(p) if fname.endswith('.wav')])
 
 matched = []            #hasil pengenalan lagu asli terhadap lagu cover
+matched_bool = []            #hasil pengenalan lagu asli terhadap lagu cover dalam bentuk Benar/Salah
+idx_tests = {'01':0, '02':1, '03':2, '04':3, '05':4, '06':5, '07':6, '08':7, '09':8, '10':9}
 #TENTUKAN DATASET TESTING
 #test_set = np.append(filepath[0][:3], filepath[5][:3])
-test_set = np.append(filepath[0][2], [])
+test_set = np.append(filepath[0][0], [])
 #PERULANGAN PROSES PENGENALAN LAGU ASLI
 for fi in test_set:
     #MEMBACA DATA LAGU DARI FILEPATH.WAV
@@ -103,6 +105,10 @@ for fi in test_set:
             ddw.append(np.abs(dw[i+1] - dw[i]))
         mean_ddws.append(np.mean(ddw))      #MENGUMPULKAN HASIL RATA-RATA JARAK SETIAP STEP DTW (DDWS)
     matched.append(np.argmin(mean_ddws))    #MENCARI INDEX DDWS MINIMUM SEBAGAI HASIL PENGENALAN DAN DIKUMPULKAN KE ARRAY HASIL PENGENALAN
+    if np.argmin(mean_ddws) == idx_tests[fi.split("\\")[2]]:
+        matched_bool.append("Benar")
+    else:
+        matched_bool.append("Salah")
 #MENGHITUNG WAKTU EKSEKUSI PROGRAM
 seconds = time.time() - start_time
 minutes = seconds // 60
