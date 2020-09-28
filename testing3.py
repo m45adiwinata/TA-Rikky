@@ -21,20 +21,20 @@ def get_MFCC(sr,audio):
     features = preprocessing.scale(features)        #PREPROCESSING FITUR DENGAN LIBRARY
     return features
 #definisi filepath lagu asli / data model
-path_asli = '..\\Data Lagu\\asli\\reff'
+path_asli = '..\\Data Lagu\\asli\\awal-reff'
 filepath_asli = [os.path.join(path_asli,fname) for fname in os.listdir(path_asli) if fname.endswith('.wav')]
 #definisi filepath lagu cover / data testing
 path = [
-        '..\\Data Lagu\\1\\reff',
-        '..\\Data Lagu\\2\\reff',
-        '..\\Data Lagu\\3\\reff',
-        '..\\Data Lagu\\4\\reff',
-        '..\\Data Lagu\\5\\reff',
-        '..\\Data Lagu\\6\\reff',
-        '..\\Data Lagu\\7\\reff',
-        '..\\Data Lagu\\8\\reff',
-        '..\\Data Lagu\\9\\reff',
-        '..\\Data Lagu\\10\\reff'
+        '..\\Data Lagu\\1\\awal-reff',
+        '..\\Data Lagu\\2\\awal-reff',
+        '..\\Data Lagu\\3\\awal-reff',
+        '..\\Data Lagu\\4\\awal-reff',
+        '..\\Data Lagu\\5\\awal-reff',
+        '..\\Data Lagu\\6\\awal-reff',
+        '..\\Data Lagu\\7\\awal-reff',
+        '..\\Data Lagu\\8\\awal-reff',
+        '..\\Data Lagu\\9\\awal-reff',
+        '..\\Data Lagu\\10\\awal-reff'
         ]
 filepath = []
 for p in path:

@@ -19,20 +19,20 @@ def get_MFCC(sr,audio):
     features = preprocessing.scale(features)        #PREPROCESSING FITUR DENGAN LIBRARY
     return features
 #definisi filepath lagu asli / data model
-path_asli = '..\\Data Lagu\\asli\\reff'
+path_asli = '..\\Data Lagu\\asli\\awal-reff'
 filepath_asli = [os.path.join(path_asli,fname) for fname in os.listdir(path_asli) if fname.endswith('.wav')]
 #definisi filepath lagu cover / data testing
 path = [
-        '..\\Data Lagu\\1\\reff - 16000',
-        '..\\Data Lagu\\2\\reff - 16000',
-        '..\\Data Lagu\\3\\reff - 16000',
-        '..\\Data Lagu\\4\\reff - 16000',
-        '..\\Data Lagu\\5\\reff - 16000',
-        '..\\Data Lagu\\6\\reff - 16000',
-        '..\\Data Lagu\\7\\reff - 16000',
-        '..\\Data Lagu\\8\\reff - 16000',
-        '..\\Data Lagu\\9\\reff - 16000',
-        '..\\Data Lagu\\10\\reff - 16000'
+        '..\\Data Lagu\\1\\awal-reff',
+        '..\\Data Lagu\\2\\awal-reff',
+        '..\\Data Lagu\\3\\awal-reff',
+        '..\\Data Lagu\\4\\awal-reff',
+        '..\\Data Lagu\\5\\awal-reff',
+        '..\\Data Lagu\\6\\awal-reff',
+        '..\\Data Lagu\\7\\awal-reff',
+        '..\\Data Lagu\\8\\awal-reff',
+        '..\\Data Lagu\\9\\awal-reff',
+        '..\\Data Lagu\\10\\awal-reff'
         ]
 filepath = []
 for p in path:
@@ -41,7 +41,7 @@ for p in path:
 matched = []            #hasil pengenalan lagu asli terhadap lagu cover
 #TENTUKAN DATASET TESTING
 #test_set = np.append(filepath[0][:3], filepath[5][:3])
-test_set = np.append(filepath[8][3], [])
+test_set = np.append(filepath[8][0], [])
 #PERULANGAN PROSES PENGENALAN LAGU ASLI
 for fi in test_set:
     rates0, bits0 = wavfile.read(fi)        #BACA SAMPLING RATES DAN BIT DATA LAGU COVER

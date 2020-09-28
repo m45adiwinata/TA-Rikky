@@ -12,6 +12,7 @@ import python_speech_features as mfcc
 from sklearn import preprocessing
 import os
 import time
+from statistics import mode
 
 start_time = time.time()
 #FUNGSI MFCC
@@ -55,6 +56,7 @@ for fi in test_set:
     #MEMBACA DATA LAGU DARI FILEPATH.WAV
     rates0, bits0 = wavfile.read(fi)
     featurestemp = get_MFCC(rates0, bits0)     #EKSTRAKSI FITUR DENGAN MEMANGGIL FUNGSI MFCC
+    matched_temp = []
     for fb in range(featurestemp.shape[1]):
         features0 = featurestemp[:,fb]
         mean_ddws = []
@@ -99,7 +101,8 @@ for fi in test_set:
             for i in range(len(dw) - 1):
                 ddw.append(np.abs(dw[i+1] - dw[i]))
             mean_ddws.append(np.mean(ddw))      #MENGUMPULKAN HASIL RATA-RATA JARAK SETIAP STEP DTW (DDWS)
-        matched.append(np.argmin(mean_ddws))    #MENCARI INDEX DDWS MINIMUM SEBAGAI HASIL PENGENALAN DAN DIKUMPULKAN KE ARRAY HASIL PENGENALAN
+        matched_temp.append(np.argmin(mean_ddws))    #MENCARI INDEX DDWS MINIMUM SEBAGAI HASIL PENGENALAN DAN DIKUMPULKAN KE ARRAY HASIL PENGENALAN
+    matched.append(mode(matched_temp))
 #MENGHITUNG WAKTU EKSEKUSI PROGRAM
 seconds = time.time() - start_time
 minutes = seconds // 60
