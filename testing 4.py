@@ -22,20 +22,20 @@ def get_MFCC(sr,audio):
     features = preprocessing.scale(features)        #PREPROCESSING FITUR DENGAN LIBRARY
     return features
 #definisi filepath lagu asli / data model
-path_asli = '..\\Data Lagu\\asli\\reff'
+path_asli = '..\\Data Lagu\\asli\\awal-reff'
 filepath_asli = [os.path.join(path_asli,fname) for fname in os.listdir(path_asli) if fname.endswith('.wav')]
 #definisi filepath lagu cover / data testing
 path = [
-        '..\\Data Lagu\\01\\reff',
-        '..\\Data Lagu\\02\\reff',
-        '..\\Data Lagu\\03\\reff',
-        '..\\Data Lagu\\04\\reff',
-        '..\\Data Lagu\\05\\reff',
-        '..\\Data Lagu\\06\\reff',
-        '..\\Data Lagu\\07\\reff',
-        '..\\Data Lagu\\08\\reff',
-        '..\\Data Lagu\\09\\reff',
-        '..\\Data Lagu\\10\\reff'
+        '..\\Data Lagu\\01\\awal-reff',
+        '..\\Data Lagu\\02\\awal-reff',
+        '..\\Data Lagu\\03\\awal-reff',
+        '..\\Data Lagu\\04\\awal-reff',
+        '..\\Data Lagu\\05\\awal-reff',
+        '..\\Data Lagu\\06\\awal-reff',
+        '..\\Data Lagu\\07\\awal-reff',
+        '..\\Data Lagu\\08\\awal-reff',
+        '..\\Data Lagu\\09\\awal-reff',
+        '..\\Data Lagu\\10\\awal-reff'
         ]
 filepath = []
 for p in path:
@@ -48,9 +48,11 @@ for f in filepath_asli:
     featurestemp2 = get_MFCC(rates, bits)    #EKSTRAKSI FITUR DENGAN MEMANGGIL FUNGSI MFCC
     fitur_lagu_asli.append({'filepath': f, 'feature':featurestemp2})
 matched = []            #hasil pengenalan lagu asli terhadap lagu cover
+matched_bool = []            #hasil pengenalan lagu asli terhadap lagu cover dalam bentuk Benar/Salah
+idx_tests = {'01':0, '02':1, '03':2, '04':3, '05':4, '06':5, '07':6, '08':7, '09':8, '10':9}
 #TENTUKAN DATASET TESTING
 #test_set = np.append(filepath[0][:3], filepath[5][:3])
-test_set = np.append(filepath[0][2], [])
+test_set = np.append(filepath[0][2], filepath[4][2:5])
 #PERULANGAN PROSES PENGENALAN LAGU ASLI
 for fi in test_set:
     #MEMBACA DATA LAGU DARI FILEPATH.WAV
@@ -103,6 +105,19 @@ for fi in test_set:
             mean_ddws.append(np.mean(ddw))      #MENGUMPULKAN HASIL RATA-RATA JARAK SETIAP STEP DTW (DDWS)
         matched_temp.append(np.argmin(mean_ddws))    #MENCARI INDEX DDWS MINIMUM SEBAGAI HASIL PENGENALAN DAN DIKUMPULKAN KE ARRAY HASIL PENGENALAN
     matched.append(mode(matched_temp))
+    if np.array(mode(matched_temp)).size > 1:
+        flag_benar = False
+        for m in np.array(mode(matched_temp)):
+            if m == idx_tests[fi.split("\\")[2]]:
+                matched_bool.append("Benar")
+                flag_benar = True
+        if flag_benar == False:
+            matched_bool.append("Salah")
+    else:
+        if mode(matched_temp) == idx_tests[fi.split("\\")[2]]:
+            matched_bool.append("Benar")
+        else:
+            matched_bool.append("Salah")
 #MENGHITUNG WAKTU EKSEKUSI PROGRAM
 seconds = time.time() - start_time
 minutes = seconds // 60
