@@ -41,7 +41,7 @@ class identify(Frame):
         lblInputLagu.grid(row=0, column=0)
         lblLagu = Label(self, text="Lagu")
         lblLagu.grid(row=1, column=0)
-        self.lblFilepath = Label(self, text="...", width="40")
+        self.lblFilepath = Label(self, text="...", width="40", background="white")
         self.lblFilepath.grid(row=1, column=1, pady=10, columnspan=3, sticky="W")
         self.BtnBrowse = Button(self, text="Pilih", command=self.fileDialog)
         self.BtnBrowse.grid(row=1, column=4, pady=10, padx=10, sticky="E")
