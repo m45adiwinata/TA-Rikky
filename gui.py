@@ -353,7 +353,7 @@ class testing(Frame):
             lblTemp = Label(self.scrollFrame.viewPort, text=str(np.sum(matched_bool_int)))
             lblTemp.grid(row=int(test_set[0].split('\\')[-3]), column=2)
             matched_bool_sums.append(np.sum(matched_bool_int))
-        self.akurasi.set(str(np.sum(matched_bool_sums)))
+        self.akurasi.set(str(np.sum(matched_bool_sums)) + '%')
         
 class ScrollFrame(Frame):
     def __init__(self, parent):
