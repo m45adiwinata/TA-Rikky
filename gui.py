@@ -34,7 +34,7 @@ class identify(Frame):
         Frame.__init__(self,*args,**kwargs)
         self.TextData = Text(self)
         self.LabelData = Label(self)
-        path_asli = '..\\Data Lagu\\asli\\awal-reff'
+        path_asli = '..\\Data Lagu\\asli\\reff'
         self.filepath_asli = [os.path.join(path_asli,fname) for fname in os.listdir(path_asli) if fname.endswith('.wav')]
         self.idx_tests = {'01':0, '02':1, '03':2, '04':3, '05':4, '06':5, '07':6, '08':7, '09':8, '10':9}
         lblInputLagu = Label(self, text="Input Lagu")
@@ -189,7 +189,7 @@ class testing(Frame):
     def __init__(self,name,*args,**kwargs):
         Frame.__init__(self,*args,**kwargs)
         self.TextTraining = Text(self)
-        path_asli = '..\\Data Lagu\\asli\\awal-reff'
+        path_asli = '..\\Data Lagu\\asli\\reff'
         self.filepath_asli = [os.path.join(path_asli,fname) for fname in os.listdir(path_asli) if fname.endswith('.wav')]
         self.idx_tests = {'01':0, '02':1, '03':2, '04':3, '05':4, '06':5, '07':6, '08':7, '09':8, '10':9}
         lblTop = Label(self, text="Pengujian Data Uji")
@@ -251,19 +251,19 @@ class testing(Frame):
         self.akurasi.set("")
     
     def testing(self):
-        path_asli = '..\\Data Lagu\\asli\\awal-reff'
+        path_asli = '..\\Data Lagu\\asli\\reff'
         filepath_asli = [os.path.join(path_asli,fname) for fname in os.listdir(path_asli) if fname.endswith('.wav')]
         path = [
-                '..\\Data Lagu\\01\\awal-reff',
-                '..\\Data Lagu\\02\\awal-reff',
-                '..\\Data Lagu\\03\\awal-reff',
-                '..\\Data Lagu\\04\\awal-reff',
-                '..\\Data Lagu\\05\\awal-reff',
-                '..\\Data Lagu\\06\\awal-reff',
-                '..\\Data Lagu\\07\\awal-reff',
-                '..\\Data Lagu\\08\\awal-reff',
-                '..\\Data Lagu\\09\\awal-reff',
-                '..\\Data Lagu\\10\\awal-reff'
+                '..\\Data Lagu\\01\\reff',
+                '..\\Data Lagu\\02\\reff',
+                '..\\Data Lagu\\03\\reff',
+                '..\\Data Lagu\\04\\reff',
+                '..\\Data Lagu\\05\\reff',
+                '..\\Data Lagu\\06\\reff',
+                '..\\Data Lagu\\07\\reff',
+                '..\\Data Lagu\\08\\reff',
+                '..\\Data Lagu\\09\\reff',
+                '..\\Data Lagu\\10\\reff'
                 ]
         filepath = []
         for p in path:

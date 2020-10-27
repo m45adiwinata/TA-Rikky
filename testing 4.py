@@ -18,7 +18,7 @@ start_time = time.time()
 #FUNGSI MFCC
 def get_MFCC(sr,audio):
     #mfcc(signal, sample_rate, win_len, win_step, num_cep, ...) https:\\\\python-speech-features.readthedocs.io\\en\\latest\\
-    features = mfcc.mfcc(audio, sr, 0.05, 0.025, 20, appendEnergy = False)      #PARAMETER MFCC DIATUR DISINI
+    features = mfcc.mfcc(audio, sr, 0.005, 0.01, 9, appendEnergy = False)      #PARAMETER MFCC DIATUR DISINI
     features = preprocessing.scale(features)        #PREPROCESSING FITUR DENGAN LIBRARY
     return features
 #definisi filepath lagu asli / data model
@@ -52,7 +52,7 @@ matched_bool = []            #hasil pengenalan lagu asli terhadap lagu cover dal
 idx_tests = {'01':0, '02':1, '03':2, '04':3, '05':4, '06':5, '07':6, '08':7, '09':8, '10':9}
 #TENTUKAN DATASET TESTING
 #test_set = np.append(filepath[0][:3], filepath[5][:3])
-test_set = np.append(filepath[9][0:], [])
+test_set = np.append(filepath[3][0:], [])
 #PERULANGAN PROSES PENGENALAN LAGU ASLI
 for fi in test_set:
     #MEMBACA DATA LAGU DARI FILEPATH.WAV
