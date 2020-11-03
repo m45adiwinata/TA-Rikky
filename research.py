@@ -10,6 +10,7 @@ import numpy as np
 import python_speech_features as mfcc
 from sklearn import preprocessing
 import os
+import cv2
 
 def get_MFCC(sr,audio):
     #mfcc(signal, sample_rate, win_len, win_step, num_cep, ...) https://python-speech-features.readthedocs.io/en/latest/
@@ -92,3 +93,28 @@ for fb in range(featurestemp.shape[1]):
         mean_ddws.append(np.mean(ddw))      #MENGUMPULKAN HASIL RATA-RATA JARAK SETIAP STEP DTW (DDWS)
     
 x = np.array(w)     #SILAHKAN DI PLOT
+y = np.zeros((x[-1,0]+1, x[-1,1]+1))
+for i in x:
+    y[i[0], i[1]] = 255
+    if i[0] >= 2:
+        y[i[0]-1, i[1]] = 255
+        y[i[0]-2, i[1]] = 255
+    elif i[0] >= 1:
+        y[i[0]-1, i[1]] = 255
+    if i[0] <= x[-1,0] - 2:
+        y[i[0]+1, i[1]] = 255
+        y[i[0]+2, i[1]] = 255
+    elif i[0] <= x[-1,0] - 1:
+        y[i[0]+1, i[1]] = 255
+    
+    if i[1] >= 2:
+        y[i[0], i[1]-1] = 255
+        y[i[0], i[1]-2] = 255
+    elif i[1] >= 1:
+        y[i[0], i[1]-1] = 255
+    if i[1] <= x[-1,1] - 2:
+        y[i[0], i[1]+1] = 255
+        y[i[0], i[1]+2] = 255
+    elif i[1] <= x[-1,1] - 1:
+        y[i[0], i[1]+1] = 255
+cv2.imwrite('grafik dtw.jpg', y)
