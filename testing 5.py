@@ -123,14 +123,22 @@ for fi in test_set:
     if np.array(mode(matched_temp2)).size > 1:
         flag_benar = False
         temp = []
+        temp_bool = []
         for m in np.array(mode(matched_temp2)):
             temp.append(idx_tests[fitur_lagu_asli[m]['filepath'].split('\\')[-1].split('_')[0]])
             if idx_tests[fitur_lagu_asli[m]['filepath'].split('\\')[-1].split('_')[0]] == idx_tests[fi.split("\\")[2]]:
-                matched_bool.append("Benar")
+                temp_bool.append("Benar")
                 flag_benar = True
+            else:
+                temp_bool.append("Salah")
         matched.append(temp)
-        if flag_benar == False:
+        if np.array(mode(temp_bool)).size > 1:
+            matched_bool.append("Benar")
+        elif mode(temp_bool) == "Benar":
+            matched_bool.append("Benar")
+        else:
             matched_bool.append("Salah")
+        
     else:
         matched.append(idx_tests[fitur_lagu_asli[mode(matched_temp2)]['filepath'].split('\\')[-1].split('_')[0]])
         if idx_tests[fitur_lagu_asli[mode(matched_temp2)]['filepath'].split('\\')[-1].split('_')[0]] == idx_tests[fi.split("\\")[2]]:
