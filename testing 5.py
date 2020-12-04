@@ -56,7 +56,7 @@ matched_bool = []            #hasil pengenalan lagu asli terhadap lagu cover dal
 idx_tests = {'01':0, '02':1, '03':2, '04':3, '05':4, '06':5, '07':6, '08':7, '09':8, '10':9}
 #TENTUKAN DATASET TESTING
 #test_set = np.append(filepath[0][:3], filepath[5][:3])
-test_set = np.append(filepath[3][0:], [])
+test_set = np.append(filepath[3][0:1], [])
 #PERULANGAN PROSES PENGENALAN LAGU ASLI
 for fi in test_set:
     matched_temp2 = [] #UNTUK MENAMPUNG MODUS MATCHED_TEMP KARENA 1 TEST_SET > 1 MODUS MATCHED_TEMP
@@ -121,14 +121,14 @@ for fi in test_set:
         x += 5 * rates0                             #PERPINDAHAN INDEKS PENGAMBILAN LAGU COVER
     #MENENTUKAN MATCHED_BOOL / BENAR ATAU SALAH
     if np.array(mode(matched_temp2)).size > 1:
-        flag_benar = False
+        #flag_benar = False
         temp = []
         temp_bool = []
         for m in np.array(mode(matched_temp2)):
             temp.append(idx_tests[fitur_lagu_asli[m]['filepath'].split('\\')[-1].split('_')[0]])
             if idx_tests[fitur_lagu_asli[m]['filepath'].split('\\')[-1].split('_')[0]] == idx_tests[fi.split("\\")[2]]:
                 temp_bool.append("Benar")
-                flag_benar = True
+                #flag_benar = True
             else:
                 temp_bool.append("Salah")
         matched.append(temp)
