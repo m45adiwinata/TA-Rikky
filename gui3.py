@@ -296,6 +296,13 @@ class testing(Frame):
         lblLagu.grid(row=0, column=1, padx=5)
         lblTKemiripan = Label(self.scrollFrame.viewPort, text="Jml benar", width="10")
         lblTKemiripan.grid(row=0, column=2)
+        lblAkurasi = Label(frInput, text="Akurasi")
+        lblAkurasi.grid(row=9, column=0, padx=10, pady=10)
+        lblEqual = Label(frInput, text="=")
+        lblEqual.grid(row=9, column=1)
+        self.akurasi = StringVar(value="")
+        entAkurasi = Entry(frInput, textvariable=self.akurasi)
+        entAkurasi.grid(row=9, column=2)
         #self.frmTabelHasil2 = Frame(frHasil)
         #self.frmTabelHasil2.grid(row=2, column=1, padx=10)
         #self.frmTabelHasil3 = Frame(frHasil)
@@ -467,7 +474,7 @@ class testing(Frame):
             lblTemp.grid(row=int(test_set[0].split('\\')[-3]), column=2)
             matched_bool_sums.append(np.sum(matched_bool_int))
             nomor += 1
-        #self.akurasi.set(str(np.sum(matched_bool_sums)) + '%')
+        self.akurasi.set(str(np.sum(matched_bool_sums)) + '%')
         
 class ScrollFrame(Frame):
     def __init__(self, parent):
