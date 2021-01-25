@@ -15,6 +15,7 @@ from statistics import mode
 from tkinter import Tk, Frame, Text, Label, Button, Entry, StringVar, Canvas, Scrollbar
 from tkinter import ttk
 from tkinter import filedialog
+import time
 
 class App(Tk):
     def __init__(self,*args,**kwargs):
@@ -38,47 +39,47 @@ class identify(Frame):
         self.filepath_asli = [os.path.join(path_asli,fname) for fname in os.listdir(path_asli) if fname.endswith('.wav')]
         self.idx_tests = {'01':0, '02':1, '03':2, '04':3, '05':4, '06':5, '07':6, '08':7, '09':8, '10':9}
         frInput = Frame(self)
-        frInput.grid(row=0, column=0, padx=10, pady=10)
+        frInput.grid(row=0, column=0, padx=20, pady=10)
         lblJudulLagu = Label(frInput, text="Judul lagu")
-        lblJudulLagu.grid(row=0, column=0)
+        lblJudulLagu.grid(row=0, column=0, sticky="W", pady=10)
         lblTitik2 = Label(frInput, text=":")
         lblTitik2.grid(row=0, column=1)
         self.strJudulLagu = StringVar(value="")
         entJudulLagu = Entry(frInput, textvariable=self.strJudulLagu)
         entJudulLagu.grid(row=0, column=2)
-        btnTripleDots = Button(frInput, text="...", command=self.fileDialog)
-        btnTripleDots.grid(row=0, column=3)
+        btnTripleDots = Button(frInput, text=". . .", command=self.fileDialog)
+        btnTripleDots.grid(row=0, column=3, padx=10)
         lblParameter = Label(frInput, text="Parameter")
-        lblParameter.grid(row=1, column=0)
+        lblParameter.grid(row=1, column=0, sticky="W")
         lblFilterBank = Label(frInput, text="Filter bank")
-        lblFilterBank.grid(row=2, column=0)
+        lblFilterBank.grid(row=2, column=0, sticky="W")
         lblTitik2 = Label(frInput, text=":")
         lblTitik2.grid(row=2, column=1)
         self.strFilterBank = StringVar(value="20")
         entFilterBank = Entry(frInput, textvariable=self.strFilterBank)
         entFilterBank.grid(row=2, column=2)
         lblPFrame = Label(frInput, text="Panjang frame")
-        lblPFrame.grid(row=3, column=0)
+        lblPFrame.grid(row=3, column=0, sticky="W")
         lblTitik2 = Label(frInput, text=":")
         lblTitik2.grid(row=3, column=1)
         self.strPFrame = StringVar(value="0.5")
         entPFrame = Entry(frInput, textvariable=self.strPFrame)
         entPFrame.grid(row=3, column=2)
         lblOvFrame = Label(frInput, text="Overlapping frame")
-        lblOvFrame.grid(row=4, column=0)
+        lblOvFrame.grid(row=4, column=0, sticky="W")
         lblTitik2 = Label(frInput, text=":")
         lblTitik2.grid(row=4, column=1)
         self.strOvFrame = StringVar(value="0.25")
         entOvFrame = Entry(frInput, textvariable=self.strOvFrame)
         entOvFrame.grid(row=4, column=2)
         btnReset = Button(frInput, text="RESET", width="10", command=self.reset)
-        btnReset.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
+        btnReset.grid(row=5, column=0, columnspan=2, padx=5, pady=10)
         btnCari = Button(frInput, text="CARI", width="10", command=self.identifikasi)
         btnCari.grid(row=5, column=2, pady=10)
         frHasil = Frame(self)
-        frHasil.grid(row=1, column=0)
+        frHasil.grid(row=1, column=0, padx=20, pady=10)
         lblHasilIdent = Label(frHasil, text="Hasil Identifikasi")
-        lblHasilIdent.grid(row=0, column=0)
+        lblHasilIdent.grid(row=0, column=0, columnspan=3, pady=10)
         self.hCover = StringVar(value="")
         entHasilCover = Entry(frHasil, textvariable=self.hCover)
         entHasilCover.grid(row=1, column=0, sticky="E")
@@ -87,9 +88,15 @@ class identify(Frame):
         self.hAsli = StringVar(value="")
         entHasilAsli = Entry(frHasil, textvariable=self.hAsli)
         entHasilAsli.grid(row=1, column=2)
+        lblKesimpulan = Label(frHasil, text="Kesimpulan")
+        lblKesimpulan.grid(row=2, column=0, sticky="W")
+        lblEqual = Label(frHasil, text="=")
+        lblEqual.grid(row=2, column=1)
         self.kesimpulan = StringVar(value="")
         entKesimpulan = Entry(frHasil, textvariable=self.kesimpulan)
-        entKesimpulan.grid(row=2, column=0, columnspan=3, padx=10, pady=5)
+        entKesimpulan.grid(row=2, column=2, padx=10, pady=5)
+        self.lblWaktuProses = Label(frHasil, text="")
+        self.lblWaktuProses.grid(row=3, column=0, columnspan=3, pady=10, padx=5)
         
         '''
         lblInputLagu = Label(self, text="Input Lagu")
@@ -157,6 +164,7 @@ class identify(Frame):
         self.kesimpulan.set("")
     
     def identifikasi(self):
+        start_time = time.time()
         self.fitur_lagu_asli = []
         for f in self.filepath_asli:
             rates, bits = wavfile.read(f)
@@ -240,6 +248,13 @@ class identify(Frame):
         self.hCover.set(self.folderpath)
         self.hAsli.set(matched_choosen)
         self.kesimpulan.set(matched_bool[0])
+        seconds = time.time() - start_time
+        minutes = seconds // 60
+        seconds = seconds % 60
+        hours = minutes // 60
+        minutes = minutes % 60
+        textwaktuproses = "--- Waktu eksekusi program: %s jam %s menit %.2f detik ---" % (hours, minutes, seconds)
+        self.lblWaktuProses.config(text=textwaktuproses)
     
 class testing(Frame):
     def __init__(self,name,*args,**kwargs):
@@ -277,32 +292,42 @@ class testing(Frame):
         entOvFrame.grid(row=5, column=2)
         btnReset = Button(frInput, text="RESET", width="10", command=self.reset)
         btnReset.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
-        btnCari = Button(frInput, text="CARI", width="10", command=self.testing)
+        btnCari = Button(frInput, text="START", width="10", command=self.testing)
         btnCari.grid(row=6, column=2, pady=10)
         
-        #frHasil = Frame(self)
-        #frHasil.grid(row=1, column=0, padx=10, pady=10)
-        #frTHead = Frame(frHasil, highlightbackground="black", highlightthickness=1)
-        #frTHead.grid(row=1, column=0, columnspan=4)
-        lblHasilIdent = Label(frInput, text="Hasil Identifikasi")
-        lblHasilIdent.grid(row=7, column=0, columnspan=2)
-        self.frmTabelHasil = Frame(frInput)
-        self.frmTabelHasil.grid(row=8, column=1, columnspan=2)
-        self.scrollFrame = ScrollFrame(self.frmTabelHasil)
-        self.scrollFrame.pack(side="top", fill="both", expand=True)
-        lblNo = Label(self.scrollFrame.viewPort, text="No", width="5")
+        frHasil = Frame(self)
+        frHasil.grid(row=1, column=0, padx=10)
+        lblHasilIdent = Label(frHasil, text="Hasil Identifikasi")
+        lblHasilIdent.grid(row=0, column=0, columnspan=3)
+        self.frmTabelHasil = Frame(frHasil)
+        self.frmTabelHasil.grid(row=1, column=0, columnspan=3)
+        #self.scrollFrame = ScrollFrame(self.frmTabelHasil)
+        #self.scrollFrame.pack(side="top", fill="both", expand=True)
+        lblNo = Label(self.frmTabelHasil, text="No", width="5")
         lblNo.grid(row=0, column=0)
-        lblLagu = Label(self.scrollFrame.viewPort, text="Lagu", width="10")
+        lblLagu = Label(self.frmTabelHasil, text="Lagu", width="10")
         lblLagu.grid(row=0, column=1, padx=5)
-        lblTKemiripan = Label(self.scrollFrame.viewPort, text="Jml benar", width="10")
+        lblTKemiripan = Label(self.frmTabelHasil, text="Jml benar", width="10")
         lblTKemiripan.grid(row=0, column=2)
-        lblAkurasi = Label(frInput, text="Akurasi")
-        lblAkurasi.grid(row=9, column=0, padx=10, pady=10)
-        lblEqual = Label(frInput, text="=")
-        lblEqual.grid(row=9, column=1)
+        self.lblTableResults1 = []
+        self.lblTableResults2 = []
+        self.lblTableResults3 = []
+        for i in range(1,11):
+            self.lblTableResults1.append(Label(self.frmTabelHasil, text="", width="5"))
+            self.lblTableResults1[i-1].grid(row=i, column=0)
+            self.lblTableResults2.append(Label(self.frmTabelHasil, text="", width="10"))
+            self.lblTableResults2[i-1].grid(row=i, column=1)
+            self.lblTableResults3.append(Label(self.frmTabelHasil, text="", width="10"))
+            self.lblTableResults3[i-1].grid(row=i, column=2)
+        lblAkurasi = Label(frHasil, text="Akurasi")
+        lblAkurasi.grid(row=2, column=0, padx=10, pady=10)
+        lblEqual = Label(frHasil, text="=")
+        lblEqual.grid(row=2, column=1)
         self.akurasi = StringVar(value="")
-        entAkurasi = Entry(frInput, textvariable=self.akurasi)
-        entAkurasi.grid(row=9, column=2)
+        entAkurasi = Entry(frHasil, textvariable=self.akurasi)
+        entAkurasi.grid(row=2, column=2)
+        self.lblWaktuProses = Label(frHasil, text="")
+        self.lblWaktuProses.grid(row=3, column=0, columnspan=3, pady=5, padx=5)
         #self.frmTabelHasil2 = Frame(frHasil)
         #self.frmTabelHasil2.grid(row=2, column=1, padx=10)
         #self.frmTabelHasil3 = Frame(frHasil)
@@ -358,6 +383,11 @@ class testing(Frame):
         return features
     
     def reset(self):
+        for i in range(10):
+            self.lblTableResults1[i].config(text="")
+            self.lblTableResults2[i].config(text="")
+            self.lblTableResults3[i].config(text="")
+        '''
         self.scrollFrame.destroy()
         self.scrollFrame = ScrollFrame(self.frmTabelHasil)
         self.scrollFrame.pack(side="top", fill="both", expand=True)
@@ -367,9 +397,11 @@ class testing(Frame):
         lblLaguAsli.grid(row=0, column=1)
         lblHasilUji = Label(self.scrollFrame.viewPort, text="Jumlah Benar", width="10")
         lblHasilUji.grid(row=0, column=2)
-        #self.akurasi.set("")
+        '''
+        self.akurasi.set("")
     
     def testing(self):
+        start_time = time.time()
         path_asli = '..\\Data Lagu\\asli\\reff'
         filepath_asli = [os.path.join(path_asli,fname) for fname in os.listdir(path_asli) if fname.endswith('.wav')]
         path = [
@@ -466,15 +498,27 @@ class testing(Frame):
                     else:
                         matched_bool.append("Salah")
                         matched_bool_int.append(0)
+            self.lblTableResults1[nomor-1].config(text=str(nomor))
+            self.lblTableResults2[nomor-1].config(text=test_set[0].split('\\')[-3])
+            self.lblTableResults3[nomor-1].config(text=str(np.sum(matched_bool_int)))
+            '''
             lblTemp = Label(self.scrollFrame.viewPort, text=str(nomor))
             lblTemp.grid(row=int(test_set[0].split('\\')[-3]), column=0)
             lblTemp = Label(self.scrollFrame.viewPort, text=test_set[0].split('\\')[-3])
             lblTemp.grid(row=int(test_set[0].split('\\')[-3]), column=1)
             lblTemp = Label(self.scrollFrame.viewPort, text=str(np.sum(matched_bool_int)))
             lblTemp.grid(row=int(test_set[0].split('\\')[-3]), column=2)
+            '''
             matched_bool_sums.append(np.sum(matched_bool_int))
             nomor += 1
         self.akurasi.set(str(np.sum(matched_bool_sums)) + '%')
+        seconds = time.time() - start_time
+        minutes = seconds // 60
+        seconds = seconds % 60
+        hours = minutes // 60
+        minutes = minutes % 60
+        textwaktuproses = "--- Waktu eksekusi program: %s jam %s menit %.2f detik ---" % (hours, minutes, seconds)
+        self.lblWaktuProses.config(text=textwaktuproses)
         
 class ScrollFrame(Frame):
     def __init__(self, parent):
